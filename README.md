@@ -1,120 +1,117 @@
-# 🔍 Deepfake Detection Web Interface
+# 🕵️‍♂️ AI Deepfake Detector (v2)
 
-A simple Flask web application to test your trained Vision Transformer model for detecting deepfakes, real faces, and AI-generated images.
+A robust, full-stack application for detecting deepfakes in images and videos. It utilizes a **Vision Transformer (ViT-B/16)** model combined with **Sightengine** ensemble detection and **SerpAPI** reverse search to provide high-accuracy forensic analysis.
 
-## 📋 Prerequisites
+## ✨ Key Features
 
-- Python 3.8+
-- CUDA-capable GPU (optional, but recommended)
-- Python 3.8+
-- CUDA-capable GPU (optional, but recommended)
-- **Important**: You must download the trained model `vit3class.pth` manually (it is too large for Git) and place it in the root directory.
+-   **Image Detection**:
+    -   **Hybrid Ensemble**: Combines local ViT model predictions with Sightengine API (GenAI detection).
+    -   **Classification**: Distinguishes between **Real**, **Deepfake**, and **AI-Generated**.
+    -   **Explainability**: Generates **Grad-CAM** heatmaps to highlight manipulated regions.
+-   **Video Analysis**:
+    -   Smart frame extraction and analysis using Sightengine's advanced video GenAI models.
+    -   Frame-by-frame deepfake probability breakdown.
+-   **Reverse Image Search**:
+    -   Integrated **SerpAPI (Google)** and **RapidAPI** to find original sources of images.
+    -   Helps verify context and authenticity.
+-   **Modern UI**:
+    -   Built with **Next.js 16**, **Tailwind CSS**, and **Shadcn UI**.
+    -   Futuristic, responsive design with dark mode.
 
-## 🚀 Quick Start
+## 🏗️ Architecture
 
-### 1. Install Dependencies
+-   **Backend**: Python (Flask)
+    -   Handles model inference (PyTorch).
+    -   Manages API integrations (Sightengine, SerpAPI).
+    -   Serves Grad-CAM heatmaps.
+-   **Frontend**: TypeScript (Next.js 16)
+    -   Provides the user interface.
+    -   Handles file uploads and displays results.
+    -   Visualizes confidence scores and heatmaps.
 
-```bash
-pip install -r requirements.txt
-```
+## 🚀 Getting Started
 
-Or install individually:
-```bash
-pip install flask torch torchvision pillow werkzeug
-```
+### Prerequisites
+-   **Python 3.10+**
+-   **Node.js 18+** & **npm/pnpm**
+-   **GPU (Optional)**: Recommended for faster local inference (CUDA).
 
-### 2. Run the Application
+### 1. Backend Setup (Flask)
 
-```bash
-python app.py
-```
+1.  **Navigate to the root directory**:
+    ```bash
+    cd "Deepfake/New folder"
+    ```
+2.  **Install Python Dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **Download Model Weights**:
+    -   Place your trained `vit3class.pth` file in the root directory.
+4.  **Environment Variables**:
+    -   Create a `.env` file in the root directory:
+        ```env
+        # Sightengine (Deepfake/GenAI Detection)
+        SIGHTENGINE_API_USER=your_user
+        SIGHTENGINE_API_SECRET=your_secret
 
-You should see:
-```
-Using device: cuda
-Model loaded successfully!
-Starting Flask app...
-Open http://localhost:5000 in your browser
-```
+        # SerpAPI (Reverse Search - Optional)
+        SERPAPI_API_KEY=your_serpapi_key
+        
+        # Supabase (Auth - Optional)
+        SUPABASE_URL=your_supabase_url
+        SUPABASE_ANON_KEY=your_supabase_key
+        ```
+5.  **Run the Backend**:
+    ```bash
+    python app.py
+    ```
+    *Server runs on `http://localhost:5000`*
 
-### 3. Open in Browser
+### 2. Frontend Setup (Next.js)
 
-Navigate to: **http://localhost:5000**
+1.  **Navigate to the frontend directory**:
+    ```bash
+    cd FRONTEND
+    ```
+2.  **Install Dependencies**:
+    ```bash
+    npm install
+    # or
+    pnpm install
+    ```
+3.  **Run the Development Server**:
+    ```bash
+    npm run dev
+    ```
+    *Client runs on `http://localhost:3000`*
 
-## 📸 How to Use
+## 📖 Usage
 
-1. **Upload an Image**
-   - Click on the upload box or drag & drop an image
-   - Supported formats: PNG, JPG, JPEG, GIF, BMP, AVIF, WebP
-   - Maximum file size: 50MB
+1.  Open `http://localhost:3000` in your browser.
+2.  **Login**: Use the designated login page (if auth is enabled).
+3.  **Dashboard**:
+    -   **Upload Image**: Select an image to virtually analyze its authenticity. View the prediction and the heatmap.
+    -   **Upload Video**: detailed frame-by-frame analysis for video files.
+    -   **Reverse Search**: Check if the image exists elsewhere on the web.
 
-2. **Analyze**
-   - Click "Analyze Image" button
-   - The model will process the image and display results
+## 🛠️ Configuration
 
-3. **View Results**
-   - **Prediction**: The classification result
-   - **Confidence**: How confident the model is in its prediction
-   - **Detailed Scores**: Probability scores for all three classes
+| File | Purpose |
+| :--- | :--- |
+| `app.py` | Main Flask backend entry point. |
+| `video_processor.py` | Handles video frame extraction and aggregation. |
+| `gradcam_vit.py` | Generates Grad-CAM heatmaps for ViT. |
+| `FRONTEND/` | Next.js source code. |
+| `requirements.txt` | Python dependencies. |
 
-## 🏷️ Classification Classes
+## 🤝 Contributing
 
-- **Real**: Authentic human face
-- **Deepfake**: Face generated using deepfake techniques
-- **AI-Generated Face**: Face created by generative AI models
+1.  Fork the repository.
+2.  Create a feature branch (`git checkout -b feature/NewFeature`).
+3.  Commit your changes (`git commit -m 'Add NewFeature'`).
+4.  Push to the branch (`git push origin feature/NewFeature`).
+5.  Open a Pull Request.
 
-## 🛠️ Model Information
-
-- **Architecture**: Vision Transformer (ViT-B-16)
-- **Pre-trained**: ImageNet1K
-- **Fine-tuned Classes**: 3 (Real, Deepfake, AI-Generated)
-- **Input Size**: 224×224 pixels
-- **Accuracy**: ~99.15% on validation set
-
-## 🐛 Troubleshooting
-
-### Model loading fails
-- Ensure `vit3class.pth` is in the same directory as `app.py`
-- Check that PyTorch and torchvision versions match the requirements
-
-### Out of memory (CUDA)
-- The app will automatically fall back to CPU
-- Processing will be slower on CPU
-
-### Port 5000 already in use
-- Edit `app.py` line 106: change `port=5000` to `port=5001` (or any free port)
-- Then access: `http://localhost:5001`
-
-## 📁 File Structure
-
-```
-.
-├── app.py                 # Flask backend
-├── requirements.txt       # Python dependencies
-├── vit3class.pth         # Trained model weights
-├── README.md             # This file
-├── templates/
-│   └── index.html        # Web interface
-└── uploads/              # Temporary image storage (auto-created)
-```
-
-## ⚙️ Performance Notes
-
-- **First run**: Model loading may take 10-30 seconds
-- **Inference time**: 1-3 seconds per image (GPU), 5-10 seconds (CPU)
-- **Batch processing**: Currently processes one image at a time
-
-## 🔒 Security
-
-- Uploaded images are stored temporarily and deleted after processing
-- No images are saved to disk
-- File size is limited to 50MB
-- File type validation is enforced
-
-## 📝 Notes
-
-- The model is optimized for face images (224×224)
-- Performance may vary with image quality and resolution
-- Best results with clear, front-facing face images
-
-Enjoy testing! 🚀
+---
+*Created by Nithin S*
