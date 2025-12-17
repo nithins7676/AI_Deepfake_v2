@@ -34,7 +34,7 @@ A robust, full-stack application for detecting deepfakes in images and videos. I
 ### Prerequisites
 -   **Python 3.10+**
 -   **Node.js 18+** & **npm/pnpm**
--   **GPU (Optional)**: Recommended for faster local inference (CUDA).
+-   **Add the model from nithins7676/vit3class.pth ,should be placed in main app.py folder**
 
 ### 1. Backend Setup (Flask)
 
