@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+.env.local
+
+# Flask
+instance/
+.webassets-cache
+
+# Model Weights (Large File)
+*.pth
+vit3class.pth
+
+# Uploads
+uploads/
+*_heatmap.png
+
+# Frontend
+FRONTEND/node_modules/
+FRONTEND/.next/
+FRONTEND/.env.local
+FRONTEND/.env
+FRONTEND/out/
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
