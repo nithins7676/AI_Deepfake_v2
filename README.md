@@ -34,7 +34,8 @@ A robust, full-stack application for detecting deepfakes in images and videos. I
 ### Prerequisites
 - **Python 3.10+**
 - **Node.js 18+** with **npm** or **pnpm**
-- **Pretrained model file**: Download [`vit3class.pth`]([https://github.com/nithins7676](https://huggingface.co/nithins7676/vit3class.pth/blob/main/vit3class.pth)) and place it in the same directory as `app.py`
+- **Pretrained model file**: Download [`vit3class.pth`](https://huggingface.co/nithins7676/vit3class.pth/blob/main/vit3class.pth) and place it in the same directory as `app.py`
+
 
 
 ### 1. Backend Setup (Flask)
